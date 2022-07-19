@@ -4,20 +4,26 @@ let opcion //Almacena la opcion del menu seleccionada.
 let resultado //Almacena el resultado de las operaciones seleccionadas.
 
 //Ciclo HACER ... MIENTRAS se cumpla la condición.
-do{
-    opcion = parseInt(prompt('Ingrese una opción:\n 1- Realizar una suma.\n 2- Concatenar dos strings.'))
-}while (opcion != 1 && opcion != 2)
+function desafioUnoStart(){
+    do{
+        opcion = parseInt(prompt('Ingrese una opción:\n 1- Realizar una suma.\n 2- Concatenar dos strings.'))
+    }while (opcion != 1 && opcion != 2)
+
+    evaluarOpcion()
+}
 
 //CONDICIONAL de selección de flujo.
-switch (opcion){
-    case 1:
-        sumar()
-        mostrarResultado(1)
-        break
-    case 2:
-        concatenar()
-        mostrarResultado(2)
-        break
+function evaluarOpcion(){
+    switch (opcion){
+        case 1:
+            sumar()
+            mostrarResultado(1)
+            break
+        case 2:
+            concatenar()
+            mostrarResultado(2)
+            break
+    }
 }
 
 //FUNCIONES de soporte para las opciones del menu.
@@ -50,3 +56,6 @@ function mostrarResultado(res){
         alert(`El string unificado es: \n ${resultado}`)
     }
 }
+
+
+

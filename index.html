@@ -5,13 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilo.css">
-    <title>Desafio 1 - Ciclos</title>
+    <title>Desafios - JavaScript 37505</title>
 </head>
 <body>
-    <H1>Desafio - Usando Ciclos</H1>
+    <h1>Desafios JavaScript - Comisión 37505</h1>
+    <hr>
+        <h2>Desafio #1 - Usando Ciclos</h2>
     <p>DESAFÍO COMPLEMENTARIO nº1 14/07/2022</p>
-    <p>Crear un algoritmo utilizando ciclos</p>
+    <p>Crear un algoritmo utilizando ciclos.</p>
+    <input type="button" class="btn" value="Iniciar Ejercicio 1" onclick="desafioUnoStart();">
+    <hr>
+    <h2>Desafio #2 - Simulador Interactivo</h2>
+    <p>DESAFÍO ENTREGABLE nº1 19/07/2022</p>
+    <p>Algoritmo que emplee funciones en el procesamiento del simulador.</p>
+    <p>Simulación de total acumulado de precios según items seleccionados.</p>
+    <div class="contenedor">
+        <div class="caja">
+            <p>Producto 1</p>
+            <strong>Precio: $125,5</strong>
+            <input type="button" class="btn" value="Agregar" onclick="totalizar(125.5);">
+        </div>
+        <div class="caja">
+            <p>Producto 2</p>
+            <strong>Precio: $237,82</strong>
+            <input type="button" class="btn" value="Agregar" onclick="totalizar(237.82);">
+        </div>
+        <div class="caja">
+            <p>Producto 3</p>
+            <strong>Precio: $374,7</strong>
+            <input type="button" class="btn" value="Agregar" onclick="totalizar(374.7);">
+        </div>
+        <div class="caja">
+            <p>Producto 4</p>
+            <strong>Precio: $97,33</strong>
+            <input type="button" class="btn" value="Agregar" onclick="totalizar(97.33);">
+        </div>
+    </div>
+    <input type="button" class="btn" value="Ver Total Acumulado" onclick="totalAcumulado();">
+    <input type="button" class="btn" value="Volver a CERO" onclick="resetear();">
+    <hr>
 
-    <script src="script.js"></script>
+    <script src="desafioUno.js"></script>
+    <script src="desafioDos.js"></script>
+
 </body>
 </html>
