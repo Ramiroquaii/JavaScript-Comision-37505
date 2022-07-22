@@ -31,7 +31,7 @@ persona.nombre = 'Juan' //cambio el valor de una propiedad
 console.log(persona['nombre'])
 console.log(persona.nombre)
 
-// CONSTRUCTOR DE OBJETO SUELTO
+// CONSTRUCTOR DE OBJETO SUELTO con metodos visibles.
 function Persona(nom,ape,age){
     this.nombre = nom
     this.apellido = ape
@@ -46,7 +46,7 @@ let persona2 = new Persona('Pedro','Enriquez',52)
 persona2.saludar()
 
 
-// CLASES
+// CLASES ocultan los metodos, solo pueden ser llamados.
 class Personas {
     constructor(nom,ape,age){
         this.nombre = nom
@@ -71,3 +71,102 @@ for(propiedad in persona3){
 for(propiedad in persona3){
     console.log(persona3[propiedad])
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// ARRAYS     ARREGLOS     VECTORES
+
+const array = ['maca', 1, true] //declaracion con cualquier tio de dato
+console.log(array[0]) //mostrando la posision indicada entre []
+
+const alumnos = ['Ramiro', 'Pedro', 'Juan']
+alumnos.push('Gustavo') //agrega al final.
+alumnos.unshift('Andres') //agrega al principio en posicion 0.
+
+alumnos.pop() //elimina ultimo elemento.
+alumnos.shift() //elimina primer elemento posicion 0.
+
+//Recorrer un array elemento por elemento.
+for (let i=0; i < alumnos.length; i++){
+    console.log('Nombre: ' + alumnos[i])
+}
+for(alumno in alumnos){
+    console.log(alumnos[alumno])
+}
+
+let enUnaLinea = alumnos.join('-') //une las pos del array, las separa con lo indicado y conviente a string.
+console.log(enUnaLinea)
+
+let fecha = '2022/04/30'
+let arrayFecha = fecha.split('/') //convierte un texto en array separando por lo indicado.
+
+
+// MATRICES    ARRAY de ARRAYs
+
+const alumnosArray = []
+const alumno1 = new Personas('Pepe', 'Martinez', 30)
+const alumno2 = new Personas('Juan', 'Sanchez', 27)
+
+alumnosArray.push(alumno1)
+alumnosArray.push(alumno2)
+
+for(let i=0; i < alumnosArray.length; i++){
+    console.log(`Soy ${alumnosArray[i].nombre} y mi edad es: ${alumnosArray[i].edad}`)
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+// CALLBACK - Funciones de orden superior
+
+function suma(num1, num2){return num1+num2}
+function resta(num1, num2){return num1-num2}
+function dividir(num1, num2){return num1/num2}
+function multiplicar(num1, num2){return num1*num2}
+
+function calcular(operacion, num1, num2){
+    let resultado = operacion(num1, num2)
+    return resultado
+}
+
+console.log(calcular(resta, 5, 3))
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+let total = 0
+const numeros = [1,2,4,6,7,9,14]
+
+function porCadaUno(array, operacion){
+    for(const i of array){
+        operacion(i)
+    }
+}
+
+function totalizar(num){
+    total += num  // igual a hacer total = total + num
+    return total
+}
+
+console.log(porCadaUno(numeros, totalizar))
+
+numeros.forEach((elemento)=> console.log(elemento))
+
+numeros.forEach( function(elemento){
+    console.log(elemento)
+})
+
+// FIND - devuelve true o false
+const peliculas =[
+    {'nombre': 'Elvis', 'duracion': 130},
+    {'nombre': 'ET', 'duracion': 145}
+]
+
+// FIND devuelve el primer match ignora si hay mas coincidencias.
+const encontrePeli = peliculas.find( (e) => e.nombre == 'Elvis')
+
+// MAP toma un array lo recorre hace alguna operacion y devuelve
+// otro array con los reusltados acorde a las posisiones del array original.
+const numerosActulizados = numeros.map( (e)=> e*2 )
+
+// FECHAS
+const fechaCalendario = new Date()
