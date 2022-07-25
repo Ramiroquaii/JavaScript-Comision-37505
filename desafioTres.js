@@ -85,9 +85,16 @@ function agregarProducto(prod){
 
 // Lista la composicion del ticket
 function verTicket(){
-    console.log('-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-')
-    for(let i=0; i < arrayTicket.length; i++){
-        console.log(`Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}`)
+    if(arrayTicket.length == 0){
+        console.log('-*-* El Ticket aun no se ha generado *-*-')
+    }else{
+        let totalGeneral = 0
+        console.log('-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-')
+        for(let i=0; i < arrayTicket.length; i++){
+            console.log(`Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}`)
+            totalGeneral = totalGeneral + Number.parseFloat(`${arrayTicket[i].total}`)
+        }
+        console.log("TOTAL GENERAL ................ " + Number.parseFloat(`${totalGeneral}`).toFixed(2))
     }
 }
 
