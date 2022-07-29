@@ -170,3 +170,48 @@ const numerosActulizados = numeros.map( (e)=> e*2 )
 
 // FECHAS
 const fechaCalendario = new Date()
+
+
+
+// DOM documento html DOM - Selectores de elementos del DOM
+
+// getElementById('id')
+// getElementByClassName('class')
+// getElementByTagName('tag')
+
+const title = getElementsByClassName('titulo')
+const bienvenida = getElementById('bienvenida')
+const like = getElementsByClassName('like')
+
+console.log(title)
+console.log(bienvenida)
+console.log(like)
+
+// innerHTML o innerText
+bienvenida.innerHTML = 'CAMBIE EL TEXTO ORIGINAL'
+
+bienvenida.style.color = 'red'
+
+const colors = ['red', 'yellow', 'purple', 'green', 'blue']
+
+//pasar numeros del 0 al 4
+//console.log(Math.floor(Math.random()*colors.length))
+let randonNumberComa = Math.random()*colors.length
+let randomNumberSinComa = Math.floor(randonNumberComa)
+
+console.log(randomNumberSinComa)
+
+bienvenida.style.color = colors[randomNumberSinComa]
+
+// Query Selector
+// Selector adicional que solo devuelve el primer elemento que encuentra
+
+const caja = document.querySelector('div .like')
+const cajas = document.querySelectorAll('.like') //todos los elementos en un array
+
+const cajaExtra = document.createElement('span')
+cajaExtra.innerText = 'Contenido de caja nueva'
+
+caja.appendChild(cajaExtra)
+
+

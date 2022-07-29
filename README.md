@@ -19,3 +19,7 @@ Algoritmo que emplee funciones en el procesamiento del simulador.
 
 DESAFÍO COMPLEMENTARIO QUE EXPIRA EL MARTES 26/07/2022 23:59HS
 Incorporar Arrays - Mejorando el Desafio anterior con Objetos y Arrays.
+
+
+PREENTREGA Nº1 PROYECTO JUEVES 28/07/2022 23:59HS
+Primera pre-entrega del Proyecto Final.
