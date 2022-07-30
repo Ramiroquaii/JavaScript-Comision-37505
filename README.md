@@ -21,5 +21,9 @@ DESAFÍO COMPLEMENTARIO QUE EXPIRA EL MARTES 26/07/2022 23:59HS
 Incorporar Arrays - Mejorando el Desafio anterior con Objetos y Arrays.
 
 
+DESAFÍO COMPLEMENTARIO EXPIRA EL MARTES 02/08/2022 23:59HS
+Interactuar con HTML - DOM
+
+
 PREENTREGA Nº1 PROYECTO JUEVES 28/07/2022 23:59HS
 Primera pre-entrega del Proyecto Final.
