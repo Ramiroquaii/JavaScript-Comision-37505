@@ -8,37 +8,38 @@
     <title>Proyecto JavaScript 37505</title>
 </head>
 <body>
-    <div class="bienvenida"><p>Bienvenido</p></div>
+    <div class="bienvenida"><p>Bienvenido !!</p></div>
     <div class="login">
-        <p>Ingrese su nombre de usuarios:</p>
-        <input type="text" id="nombre" placeholder=""><br><br>
-        <input type="button" id="boton" value="INGRESAR" onclick="login();">
+        <p>Ingrese su nombre de usuario:</p>
+        <input type="text" class="nameInput" id="nombre" placeholder=""><br><br>
+        <input type="button" class="btn" id="boton" value="INGRESAR" onclick="login();">
     </div>
     <div class="productos">
         <div class="caja">
             <p>Producto 1</p>
             <strong>Precio: $125,5</strong>
-            <input type="button" class="btn" value="Agregar" onclick="agregarProducto('Producto1');">
+            <input type="button" class="btn btnProd" value="Agregar" onclick="agregarProducto('Producto1');">
         </div>
         <div class="caja">
             <p>Producto 2</p>
             <strong>Precio: $237,82</strong>
-            <input type="button" class="btn" value="Agregar" onclick="agregarProducto('Producto2');">
+            <input type="button" class="btn btnProd" value="Agregar" onclick="agregarProducto('Producto2');">
         </div>
         <div class="caja">
             <p>Producto 3</p>
             <strong>Precio: $374,7</strong>
-            <input type="button" class="btn" value="Agregar" onclick="agregarProducto('Producto3');">
+            <input type="button" class="btn btnProd" value="Agregar" onclick="agregarProducto('Producto3');">
         </div>
         <div class="caja">
             <p>Producto 4</p>
             <strong>Precio: $97,33</strong>
-            <input type="button" class="btn" value="Agregar" onclick="agregarProducto('Producto4');">
+            <input type="button" class="btn btnProd" value="Agregar" onclick="agregarProducto('Producto4');">
         </div>
     </div>
     <div class="botonera">
-        <input type="button" class="btn" value="Ver Ticket Total" onclick="verTicket();">
-        <input type="button" class="btn" value="RESETEAR" onclick="resetearTicket();">
+        <input type="button" class="btn btnAccion" value="Ver Ticket" onclick="verTicket();">
+        <input type="button" class="btn btnAccion" value="RESETEAR" onclick="resetearTicket();">
+        <input type="button" class="btn btnAccion" value="Salir" onclick="logoff();">
     </div>
     <div class="ticket">
         

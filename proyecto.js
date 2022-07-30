@@ -23,6 +23,16 @@ class Item {
         this.cantidad = this.cantidad + 1;
         this.total = this.item.precio * this.cantidad;
     }
+    quitarItem(){
+        if(this.cantidad >= 2){
+            this.cantidad = this.cantidad - 1;
+            this.total = this.item.precio * this.cantidad;
+        }else{
+            if(this.cantidad == 1){
+                return -1;
+            }
+        }
+    }
 }
 
 //Instanciando productos disponibles para la simulación.
@@ -63,23 +73,30 @@ function login(){
     if(!usuarioLogueado){
         document.getElementById("nombre").value = '';
         document.getElementById("nombre").placeholder = 'Usuario Incorrecto';
+        document.getElementById("nombre").style.borderColor = 'red';
     }else{
         let bienvenido = document.getElementsByClassName("bienvenida");
-        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p>
-        <input type="button" class="btn" value="Salir" onclick="logoff();">`;
+        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p>`;
 
         document.getElementById("nombre").value = '';
+        document.getElementById("nombre").placeholder = '';
+        document.getElementById("nombre").style.borderColor = 'black';
 
         (document.getElementsByClassName("login"))[0].style.display = 'none';
-        (document.getElementsByClassName("productos"))[0].style.display = 'block';
-        (document.getElementsByClassName("botonera"))[0].style.display = 'block';
+        (document.getElementsByClassName("productos"))[0].style.display = 'flex';
+        (document.getElementsByClassName("botonera"))[0].style.display = 'flex';
+
+        let event = document.getElementsByClassName("btnProd");
+        for(let i=0; i < event.length; i++){
+            event[i].addEventListener("click", verTicket);
+        }
     }
 }
 
 //Salir y reiniciar todo.
 function logoff(){
-    (document.getElementsByClassName("bienvenida"))[0].innerHTML = '<p>Bienvenido</p>';
-    (document.getElementsByClassName("login"))[0].style.display = 'block';
+    (document.getElementsByClassName("bienvenida"))[0].innerHTML = '<p>Bienvenido !!</p>';
+    (document.getElementsByClassName("login"))[0].style.display = 'flex';
     (document.getElementsByClassName("productos"))[0].style.display = 'none';
     (document.getElementsByClassName("botonera"))[0].style.display = 'none';
     (document.getElementsByClassName("ticket"))[0].style.display = 'none';
@@ -90,18 +107,22 @@ function logoff(){
 // Lista la composicion del ticket.
 function verTicket(){
     if(arrayTicket.length == 0){
-        (document.getElementsByClassName("ticket"))[0].style.display = 'block';
+        (document.getElementsByClassName("ticket"))[0].style.display = 'flex';
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-* El Ticket aun no se ha generado *-*-</p>';
     }else{
-        (document.getElementsByClassName("ticket"))[0].style.display = 'block';
+        (document.getElementsByClassName("ticket"))[0].style.display = 'flex';
         let totalGeneral = 0;
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>';
         for(let i=0; i < arrayTicket.length; i++){
-            (document.getElementsByClassName("ticket"))[0].innerHTML += `<p>Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}</p>`;
+            (document.getElementsByClassName("ticket"))[0].innerHTML += `<div class="linea"><p>Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}</p><input type="button" class="btnQuitar" value="-" onclick="quitarProducto(${i});"></div>`;
             totalGeneral = totalGeneral + Number.parseFloat(`${arrayTicket[i].total}`);
         }
         (document.getElementsByClassName("ticket"))[0].innerHTML += `<p>TOTAL GENERAL ................ ${Number.parseFloat(totalGeneral).toFixed(2)}</p>`;
         (document.getElementsByClassName("ticket"))[0].innerHTML += '<p>-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>';
+    }
+    let event = document.getElementsByClassName("btnQuitar");
+    for(let i=0; i < event.length; i++){
+        event[i].addEventListener("click", verTicket);
     }
 }
 
@@ -153,5 +174,14 @@ function agregarProducto(prod){
         }
     }else{
         console.log("PRODUCTO FALTANTE");
+    }
+}
+
+function quitarProducto(indiceTicket){
+    let lineaTicket = arrayTicket[indiceTicket];
+    let eliminar = lineaTicket.quitarItem();
+
+    if(eliminar == -1){
+        arrayTicket.splice(indiceTicket, 1);
     }
 }
