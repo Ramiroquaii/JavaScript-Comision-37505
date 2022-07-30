@@ -59,7 +59,13 @@ const usuarios = [
     { nombre: "marmijo", },
     { nombre: "rvechiola", },
     { nombre: "fandres", }
-]
+];
+
+(document.getElementsByClassName("btnLogin"))[0].addEventListener("click", function(){login()});
+(document.getElementsByClassName("btnShowTkt"))[0].addEventListener("click", function(){verTicket()});
+(document.getElementsByClassName("btnReset"))[0].addEventListener("click", function(){resetearTicket()});
+(document.getElementsByClassName("btnLogoff"))[0].addEventListener("click", function(){logoff()});
+
 
 //Validación de ingreso, se solicita nombre de usuario y de existir da acceso.
 function login(){
@@ -88,7 +94,7 @@ function login(){
 
         let event = document.getElementsByClassName("btnProd");
         for(let i=0; i < event.length; i++){
-            event[i].addEventListener("click", verTicket);
+            event[i].addEventListener("click", function(){agregarProducto(`Producto${i+1}`)});
         }
     }
 }
@@ -114,7 +120,7 @@ function verTicket(){
         let totalGeneral = 0;
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>';
         for(let i=0; i < arrayTicket.length; i++){
-            (document.getElementsByClassName("ticket"))[0].innerHTML += `<div class="linea"><p>Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}</p><input type="button" class="btnQuitar" value="-" onclick="quitarProducto(${i});"></div>`;
+            (document.getElementsByClassName("ticket"))[0].innerHTML += `<div class="linea"><p>Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}</p><input type="button" class="btnQuitar" value="-" id="${arrayTicket[i].item.nombre}"></div>`;
             totalGeneral = totalGeneral + Number.parseFloat(`${arrayTicket[i].total}`);
         }
         (document.getElementsByClassName("ticket"))[0].innerHTML += `<p>TOTAL GENERAL ................ ${Number.parseFloat(totalGeneral).toFixed(2)}</p>`;
@@ -122,7 +128,7 @@ function verTicket(){
     }
     let event = document.getElementsByClassName("btnQuitar");
     for(let i=0; i < event.length; i++){
-        event[i].addEventListener("click", verTicket);
+        event[i].addEventListener("click", function(){quitarProducto(event[i].id)});
     }
 }
 
@@ -175,13 +181,20 @@ function agregarProducto(prod){
     }else{
         console.log("PRODUCTO FALTANTE");
     }
+    verTicket();
 }
 
-function quitarProducto(indiceTicket){
-    let lineaTicket = arrayTicket[indiceTicket];
+function quitarProducto(producto){
+
+    let indice = buscarTicket(producto, arrayTicket);
+
+    let lineaTicket = arrayTicket[indice];
+    
     let eliminar = lineaTicket.quitarItem();
 
     if(eliminar == -1){
-        arrayTicket.splice(indiceTicket, 1);
+        arrayTicket.splice(indice, 1);
     }
+
+    verTicket();
 }
