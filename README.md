@@ -3,6 +3,7 @@ Curso CoderHouse
 
 Alumno: RAMIRO OSCAR VECHIOLA
 
+Profesora: Macarena Armijo
 Tutora: Florencia Andres
 
 El index.html contien los enunciados y agrupa cada desafio.
@@ -23,3 +24,13 @@ Incorporar Arrays - Mejorando el Desafio anterior con Objetos y Arrays.
 
 PREENTREGA Nº1 PROYECTO JUEVES 28/07/2022 23:59HS
 Primera pre-entrega del Proyecto Final.
+
+
+DESAFÍO COMPLEMENTARIO EXPIRA EL MARTES 02/08/2022 23:59HS
+Interactuar con HTML - DOM
+
+
+DESAFÍO ENTREGABLE QUE EXPIRA EL JUEVES 04/08/2022 23:59HS
+Incorporar eventos
+
+
