@@ -215,3 +215,76 @@ cajaExtra.innerText = 'Contenido de caja nueva'
 caja.appendChild(cajaExtra)
 
 
+//LOCAL STORAGE (no cookies !!)
+//Almacenamiento local en cliente datus tel estilo fecha lugar actividad en el cliente.
+
+//SESSION STORAGE (no coookies !!)
+//Almacenamiento local que se elimina al cerrar la session, cerrar el navegador.
+
+
+//clave si o si string - valor lo que sea un objeto/array/string.
+//let miBaseLocal = window.localStorage.setItem('Clave','Valor');
+
+window.localStorage.setItem('Nombre','Ramiro');
+
+console.log(localStorage.getItem('Nombre'));
+
+window.sessionStorage.setItem('Dato','Dato en SessionStorage');
+
+console.log(sessionStorage.getItem('Dato'));
+
+
+//OPERADORES AVANZADOS
+//Evaluar y asignar al mismo tiempo.
+let usuario = {
+    nombre: 'Ramiro',
+    edad: 36,
+    altura: 1.80,
+    coloresFavoritos: {uno:'Verde', dos:'Azul', tres:'Celeste'}
+};
+
+//reemplaza al if pero si no se cumple siempre retorna FALSE.
+let fechaReg = usuario && usuario.edad <= 18 && new Date();
+
+usuario.fechaRegistro = fechaReg;
+
+console.log(usuario);
+
+// FALSY y TRUTHY
+// Valores a evaluar NULL, Undefined, NAN, '', 0
+console.log(0 || 'falsy');
+console.log('' || 'falsy');
+console.log(null || 'falsy');
+console.log(undefined || 'falsy');
+
+// NULLISH pregunta por valores NULL y UNDEFINED
+console.log(null ?? 'nullish');
+console.log(undefined ?? 'nullish');
+
+
+// DESESTRUCTURACION
+// Acceder a propiedades de objeto pero asignarlos en variables.
+// Reemplaza pero debe usarse nombre de variable ifual atributo objeto.
+// let nom = usuario.nombre;
+// let eda = usuario.edad;
+
+let {nombre, altura} = usuario;
+
+console.log(nombre);
+console.log(altura);
+
+let {coloresFavoritos} = usuario; //Extraigo el objeto dentro de usuario
+
+console.log(coloresFavoritos.dos);
+
+// Desestructurar Arreglos
+let numerillos = [4,90,54,104,3,54];
+let [a,b,,,c] = numerillos;
+console.log(a, b, c); //4, 90, 3
+
+// SPREAD --> ...nombreVariable
+let maximo = Math.max(...numerillos);
+console.log(maximo);
+
+
+

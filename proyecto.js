@@ -61,6 +61,8 @@ const usuarios = [
     { nombre: "fandres", }
 ];
 
+let prodEnCarrito = 0;
+
 (document.getElementsByClassName("btnLogin"))[0].addEventListener("click", function(){login()});
 (document.getElementsByClassName("btnShowTkt"))[0].addEventListener("click", function(){verTicket()});
 (document.getElementsByClassName("btnReset"))[0].addEventListener("click", function(){resetearTicket()});
@@ -69,6 +71,7 @@ const usuarios = [
 
 //Validación de ingreso, se solicita nombre de usuario y de existir da acceso.
 function login(){
+    window.localStorage.clear();
     let nomIngresado = document.getElementById("nombre").value;
 
     usuarioLogueado =
@@ -82,8 +85,9 @@ function login(){
         document.getElementById("nombre").style.borderColor = 'red';
     }else{
         let bienvenido = document.getElementsByClassName("bienvenida");
-        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p>`;
+        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p><div class="contenedorCarrito"><div class="contador"><p>0</p></div><img class="carrito" src="./img/carrito.png" alt="Carrito"><div class="btntkt"><p>VER</p></div></div>`;
 
+        (document.getElementsByClassName("btntkt"))[0].addEventListener("click", function(){mostrarCarrito()});
         document.getElementById("nombre").value = '';
         document.getElementById("nombre").placeholder = '';
         document.getElementById("nombre").style.borderColor = 'black';
@@ -99,6 +103,38 @@ function login(){
     }
 }
 
+function mostrarCarrito(){
+
+    let ticket = window.localStorage.getItem("Ticket");
+    ticket = JSON.parse(ticket);
+    
+    if(ticket){
+        (document.getElementsByClassName("listaCarro"))[0].innerHTML = "";
+        (document.getElementsByClassName("listaCarro"))[0].classList.toggle("listaCarrito");
+
+        for(let i=0; i<ticket.length; i++){
+        (document.getElementsByClassName("listaCarro"))[0].innerHTML +=`
+        <div class="cajaTkt">
+        <div class="tktLinea1">
+            <img src="./img/${ticket[i].item.nombre}.png" alt="${ticket[i].item.nombre}">
+        </div>
+        <div class="tktLinea2">
+            <h4>${ticket[i].item.nombre}</h4>
+            <p>Precio: $ ${ticket[i].item.precio}</p>
+            <p>Cantidad: ${ticket[i].cantidad}</p>
+        </div>
+        </div>`;
+        }
+    }else{
+        swal({
+            title: "Carrito Vacio",
+            text: "No ha elegido productos !!",
+            icon: "info",
+        });
+    }
+}
+
+
 //Salir y reiniciar todo.
 function logoff(){
     (document.getElementsByClassName("bienvenida"))[0].innerHTML = '<p>Bienvenido !!</p>';
@@ -106,12 +142,14 @@ function logoff(){
     (document.getElementsByClassName("productos"))[0].style.display = 'none';
     (document.getElementsByClassName("botonera"))[0].style.display = 'none';
     (document.getElementsByClassName("ticket"))[0].style.display = 'none';
+    (document.getElementsByClassName("listaCarro"))[0].style.display = 'none';
     resetearTicket();
 }
 
 
 // Lista la composicion del ticket.
 function verTicket(){
+    actualizarContadorCarrito();
     if(arrayTicket.length == 0){
         (document.getElementsByClassName("ticket"))[0].style.display = 'flex';
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-* El Ticket aun no se ha generado *-*-</p>';
@@ -137,6 +175,10 @@ function verTicket(){
 function resetearTicket(){
     arrayTicket = [];
     (document.getElementsByClassName("ticket"))[0].innerHTML = '';
+    (document.getElementsByClassName("ticket"))[0].style.display = 'none';
+    prodEnCarrito = 0;
+    actualizarContadorCarrito();
+    window.localStorage.clear();
 }
 
 
@@ -174,14 +216,25 @@ function agregarProducto(prod){
         let tkt = buscarTicket(producto.nombre, arrayTicket);
         if(tkt>=0){
             arrayTicket[tkt].agregarItem();
+            prodEnCarrito += 1;
+            actualizarStorage(tkt);
         }else{
             let item = new Item(producto);
             arrayTicket.push(item);
+            prodEnCarrito += 1;
+            window.localStorage.setItem(String(producto.nombre), JSON.stringify(item));
         }
     }else{
         console.log("PRODUCTO FALTANTE");
     }
+    window.localStorage.setItem("Ticket", JSON.stringify(arrayTicket));
     verTicket();
+}
+
+function actualizarStorage(indice){
+    let itemListado = arrayTicket[indice];
+    window.localStorage.removeItem(String(itemListado.item.nombre));
+    window.localStorage.setItem(String(itemListado.item.nombre), JSON.stringify(itemListado));
 }
 
 function quitarProducto(producto){
@@ -194,7 +247,17 @@ function quitarProducto(producto){
 
     if(eliminar == -1){
         arrayTicket.splice(indice, 1);
+        window.localStorage.removeItem(String(lineaTicket.item.nombre));
+    } else {
+        window.localStorage.setItem(String(lineaTicket.item.nombre), JSON.stringify(lineaTicket));
     }
 
+    prodEnCarrito -= 1;
+
+    window.localStorage.setItem("Ticket", JSON.stringify(arrayTicket));
     verTicket();
+}
+
+function actualizarContadorCarrito(){
+    (document.getElementsByClassName("contador"))[0].innerHTML = `<p>${prodEnCarrito}</p>`;
 }

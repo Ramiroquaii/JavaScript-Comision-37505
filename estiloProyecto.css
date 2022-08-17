@@ -13,6 +13,31 @@ body{
     background-color: lightsteelblue;
 }
 
+.contenedorCarrito{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.carrito{
+    width: 80px;
+    height: 80px;
+}
+.contador{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: cadetblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contador p {
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: none;
+    color: black;
+}
+
 .bienvenida{
     height: 150px;
     width: 100%;
@@ -56,6 +81,24 @@ body{
     width: 20px;
     height: 20px;
 }
+.btntkt {
+    width: 80px;
+    height: 40px;
+    background-color: darkgray;
+    border-radius: 4px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btntkt p {
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px black;
+    color: rgb(255, 0, 0);
+}
+
 
 .productos{
     width: 100%;
@@ -79,6 +122,39 @@ body{
     box-shadow: 4px 4px rgba(178, 34, 34, 0.5);
 }
 
+.cajaTkt {
+    margin-top: 10px;
+    padding: 5px;
+    width: 100%;
+    background-color: bisque;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 4px 4px rgba(178, 34, 34, 0.5);
+}
+.tktLinea1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.tktLinea2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    font-size: 13px;
+    padding: 20px;
+    white-space: pre;
+}
+.tktLinea1 img {
+    width: 50px;
+    height: 50px;
+}
+
 strong {
     margin-top: 10px;
 }
@@ -97,6 +173,9 @@ strong {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: rgba(59, 44, 59, 0.473);
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .ticket p{
@@ -109,3 +188,26 @@ strong {
     align-items: center;
     justify-content: space-evenly;
 }
+
+.listaCarro {
+    /* width: 350px;
+    height: 300px; */
+    position: fixed;
+	top: 150px;
+    margin-left: calc(100vw + 225px);
+    background-color: cadetblue;
+    padding-left: 10px;
+    padding-right: 25px;
+    padding-bottom: 15px;
+}
+
+.listaCarrito {
+    /* width: 350px;
+    height: 300px; */
+    position: fixed;
+	top: 150px;
+    background-color: cadetblue;
+    margin-left: calc(100vw - 225px);
+    transition: margin-left 1s .3s;
+}
+
