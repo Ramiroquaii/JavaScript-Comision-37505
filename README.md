@@ -35,6 +35,18 @@ Interactuar con HTML - DOM
 
 
 DESAFÍO ENTREGABLE QUE EXPIRA EL JUEVES 04/08/2022 23:59HS
-Incorporar eventos
+Incorporar eventos - Se reemplazan las llamadas de funcion desde HTML actions por eventos.
+
+
+PREENTREGA EXPIRA EL MARTES 16/08/2022 23:59HS
+Segunda Entrega del Proyecto Final
+
+
+DESAFÍO COMPLEMENTARIO EXPIRA EL JUEVES 18/08/2022 23:59HS
+Optimizando el proyecto final - Se incorpora uso de local storage
+
+
+DESAFÍO EXPIRA EL MARTES 23/08/2022 23:59HS
+Incorporando librerías - Se incorpora SweetAlert para mensajeria.
 
 

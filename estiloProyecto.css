@@ -11,6 +11,7 @@ body{
     align-items: center;
     justify-content: center;
     background-color: lightsteelblue;
+    /* overflow: hidden; */
 }
 
 .contenedorCarrito{
@@ -78,6 +79,10 @@ body{
     margin: 20px;
 }
 .btnQuitar{
+    width: 20px;
+    height: 20px;
+}
+.btnAddRemove{
     width: 20px;
     height: 20px;
 }
@@ -155,6 +160,13 @@ body{
     height: 50px;
 }
 
+.tktLinea2-subline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
 strong {
     margin-top: 10px;
 }
@@ -190,24 +202,20 @@ strong {
 }
 
 .listaCarro {
-    /* width: 350px;
-    height: 300px; */
-    position: fixed;
+    position: absolute;
 	top: 150px;
-    margin-left: calc(100vw + 225px);
-    background-color: cadetblue;
+    margin-top: 0px;
+    margin-left: calc(100vw + 240px);
     padding-left: 10px;
     padding-right: 25px;
     padding-bottom: 15px;
 }
 
 .listaCarrito {
-    /* width: 350px;
-    height: 300px; */
-    position: fixed;
+    position: absolute;
 	top: 150px;
     background-color: cadetblue;
-    margin-left: calc(100vw - 225px);
+    margin-left: calc(100vw - 240px);
     transition: margin-left 1s .3s;
 }
 

@@ -65,7 +65,7 @@ let prodEnCarrito = 0;
 
 (document.getElementsByClassName("btnLogin"))[0].addEventListener("click", function(){login()});
 (document.getElementsByClassName("btnShowTkt"))[0].addEventListener("click", function(){verTicket()});
-(document.getElementsByClassName("btnReset"))[0].addEventListener("click", function(){resetearTicket()});
+(document.getElementsByClassName("btnReset"))[0].addEventListener("click", function(){reset()});
 (document.getElementsByClassName("btnLogoff"))[0].addEventListener("click", function(){logoff()});
 
 
@@ -87,7 +87,7 @@ function login(){
         let bienvenido = document.getElementsByClassName("bienvenida");
         bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p><div class="contenedorCarrito"><div class="contador"><p>0</p></div><img class="carrito" src="./img/carrito.png" alt="Carrito"><div class="btntkt"><p>VER</p></div></div>`;
 
-        (document.getElementsByClassName("btntkt"))[0].addEventListener("click", function(){mostrarCarrito()});
+        (document.getElementsByClassName("btntkt"))[0].addEventListener("click", function(){mostrarOcultarCarrito()});
         document.getElementById("nombre").value = '';
         document.getElementById("nombre").placeholder = '';
         document.getElementById("nombre").style.borderColor = 'black';
@@ -103,16 +103,22 @@ function login(){
     }
 }
 
-function mostrarCarrito(){
+
+function actualizarCarrito(){
 
     let ticket = window.localStorage.getItem("Ticket");
     ticket = JSON.parse(ticket);
-    
-    if(ticket){
-        (document.getElementsByClassName("listaCarro"))[0].innerHTML = "";
-        (document.getElementsByClassName("listaCarro"))[0].classList.toggle("listaCarrito");
 
-        for(let i=0; i<ticket.length; i++){
+    if(ticket.length == 0){
+        console.log('Ticket VACIO');
+        (document.getElementsByClassName("listaCarro"))[0].innerHTML = "";
+        (document.getElementsByClassName("listaCarro"))[0].className = "listaCarro";
+    }
+
+    if(ticket && ticket.length > 0){
+        (document.getElementsByClassName("listaCarro"))[0].innerHTML = "";
+                
+        for(let i=0; i < ticket.length; i++){
         (document.getElementsByClassName("listaCarro"))[0].innerHTML +=`
         <div class="cajaTkt">
         <div class="tktLinea1">
@@ -121,10 +127,28 @@ function mostrarCarrito(){
         <div class="tktLinea2">
             <h4>${ticket[i].item.nombre}</h4>
             <p>Precio: $ ${ticket[i].item.precio}</p>
-            <p>Cantidad: ${ticket[i].cantidad}</p>
+            <div class="tktLinea2-subline">
+                <input type="button" class="btnAddRemove" value="+" id="add-${ticket[i].item.nombre}">
+                <p>Cantidad: ${ticket[i].cantidad}</p>
+                <input type="button" class="btnAddRemove" value="-" id="remove-${ticket[i].item.nombre}">
+            </div>
         </div>
         </div>`;
         }
+
+        for(let i=0; i<ticket.length; i++){
+            document.getElementById(`add-${ticket[i].item.nombre}`).addEventListener("click", function(){agregarProducto(`${ticket[i].item.nombre}`)});
+            document.getElementById(`remove-${ticket[i].item.nombre}`).addEventListener("click", function(){quitarProducto(`${ticket[i].item.nombre}`)});
+        }
+    }
+}
+
+function mostrarOcultarCarrito(){
+    let ticket = window.localStorage.getItem("Ticket");
+    ticket = JSON.parse(ticket);
+
+    if(ticket && ticket.length > 0){
+        (document.getElementsByClassName("listaCarro"))[0].classList.toggle("listaCarrito");
     }else{
         swal({
             title: "Carrito Vacio",
@@ -133,7 +157,6 @@ function mostrarCarrito(){
         });
     }
 }
-
 
 //Salir y reiniciar todo.
 function logoff(){
@@ -149,7 +172,6 @@ function logoff(){
 
 // Lista la composicion del ticket.
 function verTicket(){
-    actualizarContadorCarrito();
     if(arrayTicket.length == 0){
         (document.getElementsByClassName("ticket"))[0].style.display = 'flex';
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-* El Ticket aun no se ha generado *-*-</p>';
@@ -168,17 +190,42 @@ function verTicket(){
     for(let i=0; i < event.length; i++){
         event[i].addEventListener("click", function(){quitarProducto(event[i].id)});
     }
+    actualizarContadorCarrito();
+    actualizarCarrito(); ////////////////////////////////////////////
 }
 
 
 // Restablece y vuelve a cero el ticket.
 function resetearTicket(){
-    arrayTicket = [];
+    document.getElementById("listaCarro").className = "listaCarro";
     (document.getElementsByClassName("ticket"))[0].innerHTML = '';
     (document.getElementsByClassName("ticket"))[0].style.display = 'none';
+    arrayTicket = [];
     prodEnCarrito = 0;
     actualizarContadorCarrito();
     window.localStorage.clear();
+}
+
+function reset(){
+
+    if(arrayTicket && arrayTicket.length == 0){
+        swal({
+            title: "Nada para resetear.",
+            icon: "info"
+        });
+    } else {
+
+        swal({
+            title: "Resetear Ticket",
+            text: "Esta seguro de borrar ?",
+            icon: "warning",
+            buttons: ["Cancelar","Resetear"]
+        }).then((resultado) => {
+            if(resultado){
+                resetearTicket();
+            }
+        });
+    }
 }
 
 
@@ -255,6 +302,7 @@ function quitarProducto(producto){
     prodEnCarrito -= 1;
 
     window.localStorage.setItem("Ticket", JSON.stringify(arrayTicket));
+    
     verTicket();
 }
 

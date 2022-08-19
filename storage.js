@@ -67,3 +67,48 @@ swal({
 
 // TOSTIFY
 // LUXON Libreria para DateTime trabajar con fechas.
+
+// ASINCRONISMO NO BLOQUEANTE
+    setTimeout(() => {console.log("PRIMERO")}, 5000);
+    setTimeout(() => {console.log("SEGUNDO")}, 3000);
+    setTimeout(() => {console.log("TERCERO")}, 1000);
+
+// EVENT LOOP permite conectar y sincronizar el CALL STACK y CALLBACK QUEUE
+// CallStack es la pila de ejecucion de funciones lineales.
+// CallBack funciones asincronicas.
+
+
+// PROMESAS espera que se resuelva el problema planteado y cuando tiene el resultado lo envia.
+// Tipo de dato respuesta: Objeto - Promete que a futuro existira la respuesta.
+// OBJETO PROMISE { estado: pending -> rejected/fullfiled, reason: motivo del estado }
+
+const eventoFuturo = (respuesta) => {
+    return new Promise( (resolve, reject) => {
+        //cuerpo de la promesa.
+        if(respuesta){
+            resolve('Promesa cumplida');
+        }else{
+            reject('Promesa rechazada');
+        }
+    })
+}
+
+eventoFuturo(true)
+.then( (resultado) => {
+    console.log(resultado);
+})
+.catch( (error) => {
+    console.log(error);
+})
+
+eventoFuturo(false)
+.then( (resultado) => {
+    console.log(resultado);
+})
+.catch( (error) => {
+    console.log(error);
+})
+
+// .then() chequear el valor de la respuesta de promesa.
+// .catch() capturar el error o resultado negativo de una promesa.
+// .finally() se ejecuta siempre si o si luego de la promesa verdadera o falsa.
