@@ -53,6 +53,7 @@ let arrayTicket = [];// Declarando un nuevo ticket o listado de productos selecc
 
 let usuarioLogueado; //Objeto que contiene al usuario logueado.
 let loginOk = 0; //Si el login fue Ok 1 sino 0 - FLAG
+let prodEnCarrito = 0;
 
 //Array de usaurios habilitados a ingresar
 const usuarios = [
@@ -61,12 +62,14 @@ const usuarios = [
     { nombre: "fandres", }
 ];
 
-let prodEnCarrito = 0;
 
 (document.getElementsByClassName("btnLogin"))[0].addEventListener("click", function(){login()});
 (document.getElementsByClassName("btnShowTkt"))[0].addEventListener("click", function(){verTicket()});
 (document.getElementsByClassName("btnReset"))[0].addEventListener("click", function(){reset()});
 (document.getElementsByClassName("btnLogoff"))[0].addEventListener("click", function(){logoff()});
+
+document.querySelector(".lineaEnvioBtn input:nth-child(1)").addEventListener("click", (event) => {confirmarEnvio(event)});
+document.querySelector(".lineaEnvioBtn input:nth-child(2)").addEventListener("click", function(){solicitarEnvio()});
 
 
 //Validación de ingreso, se solicita nombre de usuario y de existir da acceso.
@@ -85,7 +88,7 @@ function login(){
         document.getElementById("nombre").style.borderColor = 'red';
     }else{
         let bienvenido = document.getElementsByClassName("bienvenida");
-        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p><div class="contenedorCarrito"><div class="contador"><p>0</p></div><img class="carrito" src="./img/carrito.png" alt="Carrito"><div class="btntkt"><p>VER</p></div></div>`;
+        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p><div class="contenedorCarrito"><div class="contador"><p>0</p></div><img class="carrito" src="../img/carrito.png" alt="Carrito"><div class="btntkt"><p>VER</p></div></div>`;
 
         (document.getElementsByClassName("btntkt"))[0].addEventListener("click", function(){mostrarOcultarCarrito()});
         document.getElementById("nombre").value = '';
@@ -122,7 +125,7 @@ function actualizarCarrito(){
         (document.getElementsByClassName("listaCarro"))[0].innerHTML +=`
         <div class="cajaTkt">
         <div class="tktLinea1">
-            <img src="./img/${ticket[i].item.nombre}.png" alt="${ticket[i].item.nombre}">
+            <img src="../img/${ticket[i].item.nombre}.png" alt="${ticket[i].item.nombre}">
         </div>
         <div class="tktLinea2">
             <h4>${ticket[i].item.nombre}</h4>
@@ -136,10 +139,16 @@ function actualizarCarrito(){
         </div>`;
         }
 
+        (document.getElementsByClassName("listaCarro"))[0].innerHTML +=
+        `<input type="button" class="btn" value="Envio Domicilio" id="btnEnvio">`;
+
         for(let i=0; i<ticket.length; i++){
             document.getElementById(`add-${ticket[i].item.nombre}`).addEventListener("click", function(){agregarProducto(`${ticket[i].item.nombre}`)});
             document.getElementById(`remove-${ticket[i].item.nombre}`).addEventListener("click", function(){quitarProducto(`${ticket[i].item.nombre}`)});
         }
+
+        document.getElementById(`btnEnvio`).addEventListener("click", function(){solicitarEnvio()});
+
     }
 }
 
@@ -160,13 +169,16 @@ function mostrarOcultarCarrito(){
 
 //Salir y reiniciar todo.
 function logoff(){
+    usuarioLogueado = null; 
+    loginOk = 0;
+    resetearTicket();
     (document.getElementsByClassName("bienvenida"))[0].innerHTML = '<p>Bienvenido !!</p>';
     (document.getElementsByClassName("login"))[0].style.display = 'flex';
     (document.getElementsByClassName("productos"))[0].style.display = 'none';
     (document.getElementsByClassName("botonera"))[0].style.display = 'none';
     (document.getElementsByClassName("ticket"))[0].style.display = 'none';
     (document.getElementsByClassName("listaCarro"))[0].style.display = 'none';
-    resetearTicket();
+    window.location.reload();
 }
 
 
@@ -175,6 +187,8 @@ function verTicket(){
     if(arrayTicket.length == 0){
         (document.getElementsByClassName("ticket"))[0].style.display = 'flex';
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-* El Ticket aun no se ha generado *-*-</p>';
+        actualizarContadorCarrito();
+        actualizarCarrito(); ////////////////////////////////////////////
     }else{
         (document.getElementsByClassName("ticket"))[0].style.display = 'flex';
         let totalGeneral = 0;
@@ -185,25 +199,27 @@ function verTicket(){
         }
         (document.getElementsByClassName("ticket"))[0].innerHTML += `<p>TOTAL GENERAL ................ ${Number.parseFloat(totalGeneral).toFixed(2)}</p>`;
         (document.getElementsByClassName("ticket"))[0].innerHTML += '<p>-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>';
+        actualizarContadorCarrito();
+        actualizarCarrito(); ////////////////////////////////////////////
     }
     let event = document.getElementsByClassName("btnQuitar");
     for(let i=0; i < event.length; i++){
         event[i].addEventListener("click", function(){quitarProducto(event[i].id)});
     }
-    actualizarContadorCarrito();
-    actualizarCarrito(); ////////////////////////////////////////////
+    // actualizarContadorCarrito();
+    // actualizarCarrito(); ////////////////////////////////////////////
 }
 
 
 // Restablece y vuelve a cero el ticket.
 function resetearTicket(){
+    arrayTicket = [];
+    prodEnCarrito = 0;
+    window.localStorage.clear();
+    actualizarContadorCarrito();
     document.getElementById("listaCarro").className = "listaCarro";
     (document.getElementsByClassName("ticket"))[0].innerHTML = '';
     (document.getElementsByClassName("ticket"))[0].style.display = 'none';
-    arrayTicket = [];
-    prodEnCarrito = 0;
-    actualizarContadorCarrito();
-    window.localStorage.clear();
 }
 
 function reset(){
@@ -308,4 +324,50 @@ function quitarProducto(producto){
 
 function actualizarContadorCarrito(){
     (document.getElementsByClassName("contador"))[0].innerHTML = `<p>${prodEnCarrito}</p>`;
+}
+
+
+function solicitarEnvio(){
+    document.getElementById(`panelEnvio`).classList.toggle(`visualizarEnvio`);
+}
+
+function confirmarEnvio(){
+    
+    let prov = listaProv.options[listaProv.selectedIndex].text;
+    let dept = listaDept.options[listaDept.selectedIndex].text;
+    let muni = listaMunc.options[listaMunc.selectedIndex].text;
+    let loca = listaLoca.options[listaLoca.selectedIndex].text;
+    let call = listaCall.options[listaCall.selectedIndex].text;
+    let nume = calleNum.value;
+    let cpos = codPostal.value;
+
+
+    swal({
+        title: "Confirmar Envio",
+        text: `Son correctos los datos de envio:
+        ${prov}, ${dept}, ${muni}, ${loca}
+        Calle: ${call} ${nume} CP: ${cpos}`,
+        icon: "warning",
+        buttons: ["Cancelar","Confirmar"]
+    }).then((resultado) => {
+        if(resultado){
+            let dire = {
+                "Provincia": `${prov}`,
+                "Departamento": `${dept}`,
+                "Municipio": `${muni}`,
+                "Localidad": `${loca}`,
+                "Calle": `${call}`,
+                "Numero": `${nume}`,
+                "CP": `${cpos}`,
+            }
+            window.localStorage.setItem("dirEnvio", JSON.stringify(dire));
+            listaDept.options[listaDept.selectedIndex].text = "N / A";
+            listaMunc.options[listaMunc.selectedIndex].text = "N / A";
+            listaLoca.options[listaLoca.selectedIndex].text = "N / A";
+            listaCall.options[listaCall.selectedIndex].text = "N / A";
+            calleNum.value = "";
+            codPostal.value = "";
+        }
+        solicitarEnvio();
+    });
 }

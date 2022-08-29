@@ -287,4 +287,22 @@ let maximo = Math.max(...numerillos);
 console.log(maximo);
 
 
+// AJAX - Asynchronous JavaScript and XML
+
+// Peticiones:
+// POST envio de datos al servidor.
+// GET recepcion de datos del servidor (va en la url - querystring)
+// PUT crea o modifica recurso en servidor.
+// DELETE elimina recurso del servidor.
+
+fetch("https://apis.datos.gob.ar/georef/api/provincias?")
+.then((resultado) => {
+    return resultado.json(); //convierto el objeto resultado a un objeto Java.
+})
+.then((json) => {
+    console.log(json.provincias[0].nombre); // Accedo a la propiedad necesaria.
+})
+
+
+
 

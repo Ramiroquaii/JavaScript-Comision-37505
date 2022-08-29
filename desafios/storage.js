@@ -1,4 +1,3 @@
-
 //Espacions de almacenamiento dentro del navegador.
 //Formato del estilo Key: Valor
 //Solo se almacena texto plano

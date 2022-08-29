@@ -50,3 +50,11 @@ DESAFÍO EXPIRA EL MARTES 23/08/2022 23:59HS
 Incorporando librerías - Se incorpora SweetAlert para mensajeria.
 
 
+DESAFÍO EXPIRA EL MARTES 30/08/2022 23:59HS
+Incorporando AJAX / Fetch - Se incorpora API del Servicio Geografico Nacional.
+
+
+PROYECTO FINAL EXPIRA EL MIÉRCOLES 14/09/2022 23:59HS
+Entrega Proyecto Final
+
+
