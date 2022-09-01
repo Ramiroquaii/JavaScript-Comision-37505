@@ -88,7 +88,19 @@ function login(){
         document.getElementById("nombre").style.borderColor = 'red';
     }else{
         let bienvenido = document.getElementsByClassName("bienvenida");
-        bienvenido[0].innerHTML = `<p>Bienvenido: ${usuarioLogueado.nombre}</p><div class="contenedorCarrito"><div class="contador"><p>0</p></div><img class="carrito" src="../img/carrito.png" alt="Carrito"><div class="btntkt"><p>VER</p></div></div>`;
+        bienvenido[0].innerHTML = `
+        <p>Bienvenido: ${usuarioLogueado.nombre}</p>
+        <div class="contenedorCarrito">
+            <div class="contador">
+                <p>0</p>
+            </div>
+            <img class="carrito" src="../img/carrito.png" alt="Carrito">
+            <div class="btntkt">
+                <p>VER</p>
+            </div>
+        </div>
+        <div class="contenedorEnvio">
+        </div>`;
 
         (document.getElementsByClassName("btntkt"))[0].addEventListener("click", function(){mostrarOcultarCarrito()});
         document.getElementById("nombre").value = '';
@@ -194,7 +206,14 @@ function verTicket(){
         let totalGeneral = 0;
         (document.getElementsByClassName("ticket"))[0].innerHTML = '<p>-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-</p>';
         for(let i=0; i < arrayTicket.length; i++){
-            (document.getElementsByClassName("ticket"))[0].innerHTML += `<div class="linea"><p>Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}</p><input type="button" class="btnQuitar" value="-" id="${arrayTicket[i].item.nombre}"></div>`;
+            (document.getElementsByClassName("ticket"))[0].innerHTML += `
+            <div class="linea">
+                <p>Item ${arrayTicket[i].item.nombre} $ ${arrayTicket[i].item.precio} * ${arrayTicket[i].cantidad} - - ${arrayTicket[i].total}</p>
+                <div>
+                    <input type="button" class="btnSmall Sumar" value="+" id="${arrayTicket[i].item.nombre}">
+                    <input type="button" class="btnSmall Quitar" value="-" id="${arrayTicket[i].item.nombre}">
+                </div>
+            </div>`;
             totalGeneral = totalGeneral + Number.parseFloat(`${arrayTicket[i].total}`);
         }
         (document.getElementsByClassName("ticket"))[0].innerHTML += `<p>TOTAL GENERAL ................ ${Number.parseFloat(totalGeneral).toFixed(2)}</p>`;
@@ -202,9 +221,13 @@ function verTicket(){
         actualizarContadorCarrito();
         actualizarCarrito(); ////////////////////////////////////////////
     }
-    let event = document.getElementsByClassName("btnQuitar");
-    for(let i=0; i < event.length; i++){
-        event[i].addEventListener("click", function(){quitarProducto(event[i].id)});
+    let eventMenos = document.getElementsByClassName("Quitar");
+    for(let i=0; i < eventMenos.length; i++){
+        eventMenos[i].addEventListener("click", function(){quitarProducto(eventMenos[i].id)});
+    }
+    let eventMas = document.getElementsByClassName("Sumar");
+    for(let i=0; i < eventMas.length; i++){
+        eventMas[i].addEventListener("click", function(){agregarProducto(eventMas[i].id)});
     }
     // actualizarContadorCarrito();
     // actualizarCarrito(); ////////////////////////////////////////////
@@ -335,7 +358,6 @@ function confirmarEnvio(){
     
     let prov = listaProv.options[listaProv.selectedIndex].text;
     let dept = listaDept.options[listaDept.selectedIndex].text;
-    let muni = listaMunc.options[listaMunc.selectedIndex].text;
     let loca = listaLoca.options[listaLoca.selectedIndex].text;
     let call = listaCall.options[listaCall.selectedIndex].text;
     let nume = calleNum.value;
@@ -345,8 +367,8 @@ function confirmarEnvio(){
     swal({
         title: "Confirmar Envio",
         text: `Son correctos los datos de envio:
-        ${prov}, ${dept}, ${muni}, ${loca}
-        Calle: ${call} ${nume} CP: ${cpos}`,
+        Calle: ${call} ${nume} CP: ${cpos}
+        ${prov}, ${dept}, ${loca}.`,
         icon: "warning",
         buttons: ["Cancelar","Confirmar"]
     }).then((resultado) => {
@@ -354,7 +376,6 @@ function confirmarEnvio(){
             let dire = {
                 "Provincia": `${prov}`,
                 "Departamento": `${dept}`,
-                "Municipio": `${muni}`,
                 "Localidad": `${loca}`,
                 "Calle": `${call}`,
                 "Numero": `${nume}`,
@@ -362,12 +383,35 @@ function confirmarEnvio(){
             }
             window.localStorage.setItem("dirEnvio", JSON.stringify(dire));
             listaDept.options[listaDept.selectedIndex].text = "N / A";
-            listaMunc.options[listaMunc.selectedIndex].text = "N / A";
             listaLoca.options[listaLoca.selectedIndex].text = "N / A";
             listaCall.options[listaCall.selectedIndex].text = "N / A";
             calleNum.value = "";
             codPostal.value = "";
+            
         }
         solicitarEnvio();
+        let envio = (document.getElementsByClassName("contenedorEnvio"))[0];
+            
+        envio.innerHTML = `<img class="camionEnvio" src="../img/envio.png" alt="Envio"></img>`;
+        envio.addEventListener("click", function(){mostrarEnvio()});
     });
+}
+
+function mostrarEnvio(){
+    let direccion = JSON.parse(localStorage.getItem('dirEnvio'));
+    if(direccion){
+        swal({
+            title: "Datos de Envio",
+            text: `Confirmar o eliminar datos de envio ?
+            Calle: ${direccion.Calle} ${direccion.Numero} CP: ${direccion.CP}
+            ${direccion.Provincia}, ${direccion.Departamento}, ${direccion.Localidad}.`,
+            icon: "warning",
+            buttons: ["Eliminar","Confirmar"]
+        }).then((resultado) => {
+            if(!resultado){
+                (document.getElementsByClassName("contenedorEnvio"))[0].innerHTML = "";
+                localStorage.removeItem('dirEnvio');
+            }
+        });
+    }
 }

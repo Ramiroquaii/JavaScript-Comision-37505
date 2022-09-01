@@ -2,7 +2,6 @@ const listaProvincias = [];
 
 let listaProv = document.getElementById("provinciaSelect");
 let listaDept = document.getElementById("departamentoSelect");
-let listaMunc = document.getElementById("municipioSelect");
 let listaLoca = document.getElementById("localidadSelect");
 let listaCall = document.getElementById("calleSelect");
 let calleNum  = document.getElementById("calleNumero");
@@ -21,7 +20,6 @@ fetch("https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre")
 
     listaProv.innerHTML = `<option value="nada">N / A</option>`;
     listaDept.innerHTML = `<option value="nada">N / A</option>`;
-    listaMunc.innerHTML = `<option value="nada">N / A</option>`;
     listaLoca.innerHTML = `<option value="nada">N / A</option>`;
     listaCall.innerHTML = `<option value="nada">N / A</option>`;
     calleNum.value  = "";
@@ -35,13 +33,11 @@ fetch("https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre")
 
 
 listaProv.addEventListener('change', (event) => {actualizarDepartamento(event)});
-listaDept.addEventListener('change', (event) => {actualizarMunicipio()});
-listaMunc.addEventListener('change', (event) => {actualizarLocalidad()});
+listaDept.addEventListener('change', (event) => {actualizarLocalidad()});
 listaLoca.addEventListener('change', (event) => {actualizarCalle()});
 
 function actualizarDepartamento(event){
     listaDept.innerHTML = `<option value="nada">N / A</option>`;
-    listaMunc.innerHTML = `<option value="nada">N / A</option>`;
     listaLoca.innerHTML = `<option value="nada">N / A</option>`;
     listaCall.innerHTML = `<option value="nada">N / A</option>`;
     calleNum.innerHTML = "";
@@ -60,27 +56,9 @@ function actualizarDepartamento(event){
     })
 }
 
-function actualizarMunicipio(){
-    listaLoca.innerHTML = `<option value="nada">N / A</option>`;
-    fetch(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${listaProv.value}&campos=id,nombre&max=450`)
-    .then((resultado) => {
-        return resultado.json();
-    })
-    .then((json) => {
-        listaMunc.innerHTML = "";
-        listaMunc.innerHTML += `<option value="nada">N / A</option>`;
-        for(let i=0; i < json.municipios.length; i++){
-            listaMunc.innerHTML +=
-            `<option value="${json.municipios[i].id}">${json.municipios[i].nombre}</option>`;
-        }
-    })
-    if(listaProv.value == 02){
-        actualizarCalle(event);
-    }
-}
 
 function actualizarLocalidad(){
-    fetch(`https://apis.datos.gob.ar/georef/api/localidades?departamento=${listaDept.value}&municipio=${listaMunc.value}&campos=id,nombre&max=200`)
+    fetch(`https://apis.datos.gob.ar/georef/api/localidades?departamento=${listaDept.value}&campos=id,nombre&max=200`)
     .then((resultado) => {
         return resultado.json();
     })
