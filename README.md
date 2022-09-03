@@ -55,6 +55,6 @@ Incorporando AJAX / Fetch - Se incorpora API del Servicio Geografico Nacional.
 
 
 PROYECTO FINAL EXPIRA EL MIÉRCOLES 14/09/2022 23:59HS
-Entrega Proyecto Final
+Entrega Proyecto Final - Simulación de un carrito de compras y su ticket de precios.
 
 

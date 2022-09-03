@@ -20,6 +20,11 @@ body{
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: baseline;
+}
+.contenedorEnvio{
+    margin-top: 15px;
+    margin-left: 15px;
 }
 .carrito{
     width: 80px;
@@ -53,7 +58,9 @@ body{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding-left: 80px;
+    padding-right: 80px;
     background-color: rgba(105, 105, 105, 0.705);
     font-size: 1.6rem;
     font-weight: bold;
@@ -228,7 +235,10 @@ strong {
     padding-left: 10px;
     padding-right: 25px;
     padding-bottom: 15px;
-    margin-left: calc(100vw + 240px);
+    border-bottom-left-radius: 15px;
+    background-color: cadetblue;
+    box-shadow: -10px 10px 10px rgba(95, 158, 160, 0.600);
+    margin-left: calc(100vw + 280px);
     transition: margin-left .7s .3s;
 }
 
@@ -236,7 +246,7 @@ strong {
     position: absolute;
 	top: 150px;
     background-color: cadetblue;
-    margin-left: calc(100vw - 240px);
+    margin-left: calc(100vw - 250px);
     transition: margin-left .7s .3s;
 }
 

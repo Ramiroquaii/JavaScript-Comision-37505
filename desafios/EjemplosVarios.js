@@ -1,7 +1,7 @@
 // Este codigo es de consulta y no pretende dar ningun
 // tipo de funcionalidad al proyecto. Son solo ejemplos
 // y referencias a metodos y funciones para tener a
-// metodosde consulta.
+// modo de consulta.
 
 //FUNCION ANONIMA
 let suma = function(num1,num2){return num1+num2}

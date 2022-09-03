@@ -1,3 +1,7 @@
+// Desafio #2 - Simulador Interactivo
+// DESAFÍO ENTREGABLE nº1 19/07/2022
+// Algoritmo que emplee funciones en el procesamiento del simulador.
+
 //Acumulador de precio
 let total = 0
 

@@ -1,3 +1,7 @@
+// Desafio #3 - Incorporar Arrays
+// DESAFÍO COMPLEMENTARIO nº2 26/07/2022
+// Sumando arrays y objetos al simulador interactivo.
+
 //Genracion de tipo dato productos (Objeto a traves de Clase).
 class Producto {
     constructor(nom,pre){

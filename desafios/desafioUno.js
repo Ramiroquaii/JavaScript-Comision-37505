@@ -1,3 +1,7 @@
+// Desafio #1 - Usando Ciclos
+// DESAFÍO COMPLEMENTARIO nº1 14/07/2022
+// Crear un algoritmo utilizando ciclos.
+
 //VARIABLES GLOBALES
 let opcion //Almacena la opcion del menu seleccionada.
 

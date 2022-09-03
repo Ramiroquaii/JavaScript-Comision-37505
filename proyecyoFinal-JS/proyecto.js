@@ -49,30 +49,31 @@ arrayProductos.push(producto2);
 arrayProductos.push(producto3);
 arrayProductos.push(producto4);
 
-let arrayTicket = [];// Declarando un nuevo ticket o listado de productos seleccionados.
+let arrayTicket = []; // Declarando un nuevo ticket o listado de productos seleccionados.
 
-let usuarioLogueado; //Objeto que contiene al usuario logueado.
-let loginOk = 0; //Si el login fue Ok 1 sino 0 - FLAG
-let prodEnCarrito = 0;
+let usuarioLogueado;    // Objeto que contiene al usuario logueado.
+let loginOk = 0;        // Si el login fue Ok 1 sino 0 - FLAG
+let prodEnCarrito = 0;  // Acumulador de unidades agregadas al carrito-ticket.
 
-//Array de usaurios habilitados a ingresar
+// Array de usaurios habilitados a ingresar para la simulación.
 const usuarios = [
     { nombre: "marmijo", },
     { nombre: "rvechiola", },
     { nombre: "fandres", }
 ];
 
-
+// Probando distintos metodos de seleccion de elemntos botones para asignarles eventos asociados.
 (document.getElementsByClassName("btnLogin"))[0].addEventListener("click", function(){login()});
 (document.getElementsByClassName("btnShowTkt"))[0].addEventListener("click", function(){verTicket()});
 (document.getElementsByClassName("btnReset"))[0].addEventListener("click", function(){reset()});
 (document.getElementsByClassName("btnLogoff"))[0].addEventListener("click", function(){logoff()});
-
 document.querySelector(".lineaEnvioBtn input:nth-child(1)").addEventListener("click", (event) => {confirmarEnvio(event)});
 document.querySelector(".lineaEnvioBtn input:nth-child(2)").addEventListener("click", function(){solicitarEnvio()});
 
 
-//Validación de ingreso, se solicita nombre de usuario y de existir da acceso.
+// Validación de ingreso, se solicita nombre de usuario y de existir da acceso.
+// Muestra secciones ocultas hasta el login valido.
+// Oculta la sección de login al validar.
 function login(){
     window.localStorage.clear();
     let nomIngresado = document.getElementById("nombre").value;
@@ -98,8 +99,8 @@ function login(){
             <div class="btntkt">
                 <p>VER</p>
             </div>
-        </div>
-        <div class="contenedorEnvio">
+            <div class="contenedorEnvio">
+            </div>
         </div>`;
 
         (document.getElementsByClassName("btntkt"))[0].addEventListener("click", function(){mostrarOcultarCarrito()});
@@ -118,16 +119,15 @@ function login(){
     }
 }
 
-
+// Carga o actualiza el listado del menu VER del Carrito.
 function actualizarCarrito(){
 
     let ticket = window.localStorage.getItem("Ticket");
     ticket = JSON.parse(ticket);
 
-    if(ticket.length == 0){
-        console.log('Ticket VACIO');
-        (document.getElementsByClassName("listaCarro"))[0].innerHTML = "";
+    if(!ticket || ticket.length == 0){
         (document.getElementsByClassName("listaCarro"))[0].className = "listaCarro";
+        console.log('Ticket VACIO');
     }
 
     if(ticket && ticket.length > 0){
@@ -160,10 +160,10 @@ function actualizarCarrito(){
         }
 
         document.getElementById(`btnEnvio`).addEventListener("click", function(){solicitarEnvio()});
-
     }
 }
 
+// Muestra u oculta si esta activo el listado de items del carrito.
 function mostrarOcultarCarrito(){
     let ticket = window.localStorage.getItem("Ticket");
     ticket = JSON.parse(ticket);
@@ -179,7 +179,7 @@ function mostrarOcultarCarrito(){
     }
 }
 
-//Salir y reiniciar todo.
+// Salir y reiniciar todo.
 function logoff(){
     usuarioLogueado = null; 
     loginOk = 0;
@@ -192,7 +192,6 @@ function logoff(){
     (document.getElementsByClassName("listaCarro"))[0].style.display = 'none';
     window.location.reload();
 }
-
 
 // Lista la composicion del ticket.
 function verTicket(){
@@ -229,8 +228,6 @@ function verTicket(){
     for(let i=0; i < eventMas.length; i++){
         eventMas[i].addEventListener("click", function(){agregarProducto(eventMas[i].id)});
     }
-    // actualizarContadorCarrito();
-    // actualizarCarrito(); ////////////////////////////////////////////
 }
 
 
@@ -245,15 +242,14 @@ function resetearTicket(){
     (document.getElementsByClassName("ticket"))[0].style.display = 'none';
 }
 
+// Pregunta si se esta realmente seguro de restblecer el ticket.
 function reset(){
-
     if(arrayTicket && arrayTicket.length == 0){
         swal({
             title: "Nada para resetear.",
             icon: "info"
         });
     } else {
-
         swal({
             title: "Resetear Ticket",
             text: "Esta seguro de borrar ?",
@@ -267,7 +263,6 @@ function reset(){
     }
 }
 
-
 // Busca y debuelve la existencia de un producto dentro del array de productos disponibles.
 function buscarProducto(prod, array){
     let producto;
@@ -280,7 +275,6 @@ function buscarProducto(prod, array){
     return producto;
 }
 
-
 // Busca si ya existe en el ticket un renglon o item con el producto elegido.
 function buscarTicket(prod, array){
     let item;
@@ -292,7 +286,6 @@ function buscarTicket(prod, array){
     }
     return item;
 }
-
 
 // Agrgar un producto al ticket, si ya fue selecionado anteriormente actualiza cantidad y precio.
 function agregarProducto(prod){
@@ -314,21 +307,21 @@ function agregarProducto(prod){
         console.log("PRODUCTO FALTANTE");
     }
     window.localStorage.setItem("Ticket", JSON.stringify(arrayTicket));
-    verTicket();
+    verTicket(); // Al finalizar actualiza el ticket.
 }
 
+// Actualiza un producto en el storage, elimina el viejo y vuelve a escribir el actualizado.
 function actualizarStorage(indice){
     let itemListado = arrayTicket[indice];
     window.localStorage.removeItem(String(itemListado.item.nombre));
     window.localStorage.setItem(String(itemListado.item.nombre), JSON.stringify(itemListado));
 }
 
+// Elimina un producto del ticket, si hay uno solo elimina, si hay mas de uno descuenta una unidad.
 function quitarProducto(producto){
 
     let indice = buscarTicket(producto, arrayTicket);
-
     let lineaTicket = arrayTicket[indice];
-    
     let eliminar = lineaTicket.quitarItem();
 
     if(eliminar == -1){
@@ -339,30 +332,29 @@ function quitarProducto(producto){
     }
 
     prodEnCarrito -= 1;
-
     window.localStorage.setItem("Ticket", JSON.stringify(arrayTicket));
-    
-    verTicket();
+    verTicket(); // Al finalizar actualiza el ticket.
 }
 
+// Actualiza el numero del contador de items del carrito.
 function actualizarContadorCarrito(){
     (document.getElementsByClassName("contador"))[0].innerHTML = `<p>${prodEnCarrito}</p>`;
 }
 
-
+// Visualida u oculta el panel de datos de envio.
 function solicitarEnvio(){
     document.getElementById(`panelEnvio`).classList.toggle(`visualizarEnvio`);
 }
 
+// Pregunta si se confirmar los datos de envio ingresados para hacerlos efectivos.
+// Guarda el objeto direccion de envio en el local storage.
 function confirmarEnvio(){
-    
     let prov = listaProv.options[listaProv.selectedIndex].text;
     let dept = listaDept.options[listaDept.selectedIndex].text;
     let loca = listaLoca.options[listaLoca.selectedIndex].text;
     let call = listaCall.options[listaCall.selectedIndex].text;
     let nume = calleNum.value;
     let cpos = codPostal.value;
-
 
     swal({
         title: "Confirmar Envio",
@@ -387,7 +379,6 @@ function confirmarEnvio(){
             listaCall.options[listaCall.selectedIndex].text = "N / A";
             calleNum.value = "";
             codPostal.value = "";
-            
         }
         solicitarEnvio();
         let envio = (document.getElementsByClassName("contenedorEnvio"))[0];
@@ -397,6 +388,7 @@ function confirmarEnvio(){
     });
 }
 
+// Visualiza los datos de envio, da la opcion de borrarlos.
 function mostrarEnvio(){
     let direccion = JSON.parse(localStorage.getItem('dirEnvio'));
     if(direccion){
